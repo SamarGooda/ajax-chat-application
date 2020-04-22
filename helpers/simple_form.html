@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>Polling</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+    </head>
+    <body>
+        <form id="form">
+            <label>user</label>
+            <input type="text" id="user">
+            <label>Message</label>
+            <input type="text" id="containt">
+            <button id="send" type="submit">send</button>
+            <div id="msg"></div>
+        </form>
+        <div id="messages"></div>
+        <script>
+            const form = document.getElementById("form");
+            const user = document.getElementById("user");
+            const contain =document.getElementById("containt");
+            const message =document.getElementById("messages") 
+              
+
+            form.addEventListener('submit',(e) => {
+                  e.preventDefault();
+                  const users = user.value;
+                  const contains = contain.value;
+                  axios.post('http://localhost:5000/messages',{user,contains}).then(res => {user.value= '',contain.value=''});
+            });
+            setInterval(() => {
+                axios.get('http://localhost:5000/messages').then(res => {
+                const {data} = res;
+                console.log(data);
+                const messagesValue = data.map(m => m.message).join('\n');
+                messages.innerHTML = messagesValue;
+            })
+            }, 5 * 1000)
+           
+        </script>
+    </body>
+</html>
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polling</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <form id="form">
+        <label>Name</label>
+        <input type="text" name="name" id="name" ><br><br>
+        <label>Message</label>
+        <input type="text" name="content" id="content" ><br>
+        <button type="submit">submit</button>
+ </form>
+ <div id="messages"></div>
+    
+</body>
+<script>
+    const name=document.getElementById("name")
+    const form=document.getElementById("form")
+    const content=document.getElementById("content")
+    const messages=document.getElementById("messages")
+    form.addEventListener('submit', (e)=>
+    {
+        e.preventDefault();
+        const message= content.value;
+        const namevalue= name.value;
+        axios.post('http://localhost:3000/messages',{namevalue ,message }).then(res=>
+        {content.value='',
+        name.value=''})
+
+
+
+
+    });
+
+    setInterval(()=>{
+        axios.get('http://localhost:3000/messages').then(res=>{
+        const { data } = res;
+        const messageValue = data.map(m => m.namevalue + " : " + m.message + "<br>" ).join('\n');
+        console.log(messageValue)
+        console.log(data)
+        messages.innerHTML = messageValue;
+    })
+        
+    },5*1000)
+
+
+
+
+
+</script>
+</html -->

@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Polling</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+    </head>
+    <body>
+        <form id="form">
+            <label>user</label>
+            <input type="text" id="user">
+            <label>Message</label>
+            <input type="text" id="containt">
+            <button id="send" type="submit">send</button>
+            <div id="msg"></div>
+        </form>
+        <div id="messages"></div>
+        <script>
+            const form = document.getElementById("form");
+            const user = document.getElementById("user");
+            const contain =document.getElementById("containt");
+            const messages =document.getElementById("messages") 
+              
+
+            form.addEventListener('submit',(e) => {
+                  e.preventDefault();
+                  const users = user.value;
+                  const contains = contain.value;
+                  axios.post('http://localhost:5000/long',{user,contains}).then(res => {user.value= '',contain.value=''});
+            });
+             
+            const getNewMesassage = () => {
+                axios.get('http://localhost:5000/long').then(res => {
+                const {data} = res;
+                console.log(data);
+                messages.innerHTML = messages.innerHTML + contains.message + '\n';
+                getNewMesassage() ;          
+            });
+        }
+          
+        getNewMesassage() ;  
+        </script>
+    </body>
+</html> 
