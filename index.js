@@ -9,27 +9,26 @@ app.use(cors());
 const messages = [];
 
 
-app.post('/message',(req,res) =>{
-    // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh1")
-   const { body } = req ;
-   messages.push(body);
-   res.status(204).end();
-});
+// app.post('/messages',(req,res) =>{
+//    const { body } = req ;
+//    messages.push(body);
+//    res.status(204).end();
+// });
 
 
-app.get('/message',(req,res) => { 
-    // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh2")
-   res.json(messages);
-}); 
+// app.get('/messages',(req,res) => { 
+    
+//    res.json(messages);
+// }); 
 // #############################################################
-const subscribes ={}
+const subscribers ={}
 
 app.post('/long',(req,res) =>{
    const { body } = req ;
 
-   Object.keys(subscribes).forEach((id) => {
-     subscribes[id].json(body);
-     delete subscribes[id];
+   Object.keys(subscribers).forEach( id => {
+      subscribers[id].json(body);
+     delete subscribers[id];
 }); 
    res.status(204).end();
 }); 
@@ -37,13 +36,13 @@ app.post('/long',(req,res) =>{
 
 app.get('/long',(req,res) => { 
     const id = Math.ceil(Math.random() * 100000);
-    subscribes[id]=res;
+    subscribers[id]=res;
 }); 
 
 
-app.listen(3000,() => {
-    // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh3")
-    console.info('Server listening on port 3000');  
+app.listen(5000,() => {
+
+    console.info('Server listening on port 5000');  
 
 });
 
