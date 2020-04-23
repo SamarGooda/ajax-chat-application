@@ -9,30 +9,30 @@
             <label>user</label>
             <input type="text" id="user">
             <label>Message</label>
-            <input type="text" id="containt">
+            <input type="text" id="content">
             <button id="send" type="submit">send</button>
             <div id="msg"></div>
         </form>
         <div id="messages"></div>
         <script>
-            const form = document.getElementById("form");
-            const user = document.getElementById("user");
-            const contain =document.getElementById("containt");
+            const form    = document.getElementById("form");
+            const userName = document.getElementById("user");
+            const content  =document.getElementById("content");
             const messages =document.getElementById("messages") 
               
 
             form.addEventListener('submit',(e) => {
                   e.preventDefault();
-                  const users = user.value;
-                  const contains = contain.value;
-                  axios.post('http://localhost:5000/long',{user,contains}).then(res => {user.value= '',contain.value=''});
+                  const user    = userName.value;
+                  const contentMsg = content.value;
+                  axios.post('http://localhost:5000/long',{user,contentMsg}).then(res => {userName.value = '',content.value =''});
             });
              
             const getNewMesassage = () => {
                 axios.get('http://localhost:5000/long').then(res => {
-                const {data} = res;
+                const { data } = res;
                 console.log(data);
-                messages.innerHTML = messages.innerHTML + contains.message + '\n';
+                messages.innerHTML = messages.innerHTML + " " + data.user + " : "  + data.content+ "<br>" ; 
                 getNewMesassage() ;          
             });
         }
