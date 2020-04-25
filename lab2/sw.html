@@ -1,0 +1,39 @@
+<html lang="en">
+    <head>
+        <title>Socket web</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+        
+    </head>
+    <body>
+        <form id="form">
+            <label>user</label>
+            <input type="text" id="user"><br><br>
+            <label>Message</label>
+            <input type="text" id="content"><br><br>
+            <button id="send" type="submit">send</button>
+        </form>
+        <div id="messages"></div>
+        <script>
+            const socket = io.connect("http://localhost:5000")
+            const form    = document.getElementById("form");
+            const userName = document.getElementById("user");
+            const content  =document.getElementById("content");
+            const messages =document.getElementById("messages") 
+              
+
+            form.addEventListener('submit',(e) => {
+                  e.preventDefault();
+                  const user    = userName.value;
+                  const contentMsg = content.value;
+                  // to use socket for sending data
+                   socket.emit('message',{ name: userName.value ,message: content.value })
+                   userName.value = "";
+                   content.value = "";
+            });
+            socket.on('new-message' ,(data)=>{
+        messages.innerHTML =messages.innerHTML + data.name + " : " + data.message + "<br>";
+    })
+            
+        </script>
+    </body>
+</html>  
