@@ -1,0 +1,40 @@
+<!-- server sent event -->
+<html>
+    <head>
+        <title>Server Sent Event</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+    </head>
+    <body>
+        <form id="form">
+            <label>user</label>
+            <input type="text" id="user"><br><br>
+            <label>Message</label>
+            <input type="text" id="content"><br><br>
+            <button id="send" type="submit">send</button>
+        </form>
+        <div id="messages"></div>
+        <script>
+            const form    = document.getElementById("form");
+            const userName = document.getElementById("user");
+            const content  =document.getElementById("content");
+            const messages =document.getElementById("messages") 
+              
+
+            form.addEventListener('submit',(e) => {
+                  e.preventDefault();
+                  const user    = userName.value;
+                  const contentMsg = content.value;
+                  axios.post('http://localhost:5000/messages',{user,contentMsg}).then(res => {userName.value = '',content.value =''});
+            });
+            //  event source will make get request on server
+          const evtSource = new EventSource ('http://localhost:5000/messages');
+          evtSource.onmessage = (e) =>  {
+              console.log(e);
+              const data = JSON.parse(e.data);
+              messages.innerHTML = messages.innerHTML + data.user+ ": "+ data.contentMsg + "<br> <br>";
+            
+                   }
+        </script>
+    </body>
+</html> 
